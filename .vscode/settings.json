@@ -1,0 +1,15 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.quickSuggestions": {
+    "comments": "off",
+    "other": "on",
+    "strings": "on"
+  },
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

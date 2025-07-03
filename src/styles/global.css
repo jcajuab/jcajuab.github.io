@@ -1,0 +1,7 @@
+/* TODO add custom fonts (https://www.fontshare.com/fonts/gambarino) */
+
+@import 'tailwindcss';
+
+:target {
+  scroll-margin-block: 5ex;
+}
