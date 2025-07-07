@@ -18,8 +18,10 @@ yarn-error.log*
 logs/
 
 # environment variables
+.direnv/
 .env*
 !.env.example
+!.envrc
 
 # miscellaneous
 .DS_Store
