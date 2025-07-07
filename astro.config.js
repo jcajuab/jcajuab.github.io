@@ -7,5 +7,10 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        ignored: ['**/.direnv/**'],
+      },
+    },
   },
 })
