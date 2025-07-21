@@ -1,0 +1,39 @@
+---
+type Props = {
+  title: string
+  url?: string
+}
+
+const { title, url = 'https://jcajuab.github.io' } = Astro.props
+---
+
+<head>
+  <meta charset="utf8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title}</title>
+
+  <!-- TODO add description -->
+  <!-- <meta name="description" content="" /> -->
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href={url} />
+
+  <!-- TODO add open graph description and image -->
+  <meta property="og:url" content={url} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <!-- <meta property="og:description" content="" /> -->
+  <!-- <meta property="og:image" content="" /> -->
+
+  <!-- TODO add twitter description and image -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content={url.replace(/^https?:\/\//, '')} />
+  <meta property="twitter:url" content={url} />
+  <meta name="twitter:title" content={title} />
+  <!-- <meta name="twitter:description" content="" /> -->
+  <!-- <meta name="twitter:image" content="" /> -->
+
+  <!-- TODO add favicons (https://realfavicongenerator.net/) -->
+
+  <meta name="generator" content={Astro.generator} />
+  <meta name="apple-mobile-web-app-title" content={url} />
+</head>

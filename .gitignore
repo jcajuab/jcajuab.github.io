@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# generated types
+.astro/
+
+# logs
+*.log
+*.log.*
+lerna-debug.log*
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# environment variables
+.direnv/
+.env*
+!.env.example
+!.envrc
+
+# miscellaneous
+.DS_Store
+Thumbs.db
