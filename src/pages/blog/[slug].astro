@@ -1,0 +1,30 @@
+---
+import { marked } from "marked"
+
+import Head from "#/components/Head.astro"
+import { blogs } from "#/data"
+import BaseLayout from "#/layouts/BaseLayout.astro"
+
+export async function getStaticPaths() {
+  return blogs.map(({ attributes: { title, slug }, body }) => ({
+    params: {
+      slug,
+    },
+    props: {
+      title,
+      body,
+    },
+  }))
+}
+
+const { title, body } = Astro.props
+
+// TODO: Sanitize the HTML because I don't trust myself
+const html = await marked.parse(body)
+---
+
+<!-- Add metadata, tags, and table of contents -->
+<BaseLayout>
+  <Head title={title} slot="head" />
+  <main class="prose flex flex-1 flex-col" set:html={html} />
+</BaseLayout>

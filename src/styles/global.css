@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+  themes: dracula;
+}
+
+@theme {
+  --font-commit-mono: "Commit Mono", monospace;
+}

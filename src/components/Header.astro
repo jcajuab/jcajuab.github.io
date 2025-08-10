@@ -1,0 +1,55 @@
+---
+import { isEqual } from "ufo"
+
+import { MY_GITHUB_URL } from "#/constants"
+
+type Link = {
+  href: string
+  label: string
+}
+
+const { pathname } = Astro.url
+
+const internalLinks = [
+  { href: "/", label: "Home" },
+  { href: "#", label: "Blog" },
+  { href: "#", label: "Contact" },
+] as const satisfies Link[]
+---
+
+<header class="mb-16">
+  <nav class="flex items-center justify-between" aria-label="Main navigation">
+    <ul class="space-x-4">
+      {
+        internalLinks.map(({ href, label }) => {
+          const isActive = isEqual(pathname, href)
+
+          return (
+            <li class="inline-block">
+              <a
+                href={href}
+                class:list={[
+                  "link font-semibold",
+                  { "link-secondary": isActive },
+                ]}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          )
+        })
+      }
+    </ul>
+    <ul>
+      <li>
+        <a
+          href={MY_GITHUB_URL}
+          class="link font-semibold"
+          target="_blank"
+          rel="noopener noreferrer">GitHub</a
+        >
+      </li>
+    </ul>
+  </nav>
+</header>

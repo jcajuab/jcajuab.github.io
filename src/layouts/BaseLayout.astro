@@ -1,0 +1,19 @@
+---
+import "@fontsource/commit-mono"
+import "#/styles/global.css"
+
+import Footer from "#/components/Footer.astro"
+import Header from "#/components/Header.astro"
+---
+
+<!doctype html>
+<html lang="en" data-theme="dracula">
+  <slot name="head" />
+  <body
+    class="font-commit-mono mx-auto flex min-h-screen max-w-[60ch] flex-col p-4"
+  >
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>

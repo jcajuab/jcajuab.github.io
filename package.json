@@ -1,0 +1,36 @@
+{
+  "name": "jcajuab.github.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "format": "prettier --write .",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/commit-mono": "^5.2.5",
+    "front-matter": "^4.0.2",
+    "marked": "^16.1.2",
+    "ts-pattern": "^5.8.0",
+    "ufo": "^1.6.1",
+    "valibot": "^1.1.0",
+    "wretch": "^2.11.0"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.4.2",
+    "@ianvs/prettier-plugin-sort-imports": "^4.6.1",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.12.9",
+    "daisyui": "^5.0.50",
+    "lefthook": "^1.12.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.1.11",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "packageManager": "pnpm@10.14.0"
+}
