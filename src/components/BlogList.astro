@@ -1,0 +1,45 @@
+---
+import { format } from "date-fns";
+
+import { DATE_FORMAT } from "#/constants";
+import type { Blogs } from "#/data";
+
+type Props = {
+  blogs: Blogs;
+};
+
+const { blogs } = Astro.props;
+---
+
+<ol class="list">
+  {
+    blogs.map(
+      ({
+        metadata: { title, slug, description, estimatedReadingTime, createdAt },
+      }) => (
+        <li class="list-row p-0">
+          <aritcle class="list-col-grow">
+            <div class="flex justify-between">
+              <h3
+                class="text-lg font-semibold"
+                aria-label={`Post title: ${title}`}
+              >
+                {title}
+              </h3>
+              <p class="text-sm opacity-50">
+                {estimatedReadingTime} min read &middot;{" "}
+                {format(createdAt, DATE_FORMAT)}
+              </p>
+            </div>
+            <p class="mt-2 mb-4 line-clamp-2 text-justify">{description}</p>
+            <div class="flex justify-end">
+              <a href={`/blog/${slug}`} class="btn btn-sm btn-primary">
+                Read
+              </a>
+            </div>
+          </aritcle>
+        </li>
+      ),
+    )
+  }
+</ol>

@@ -1,30 +1,44 @@
 ---
-import { marked } from "marked"
+import { format } from "date-fns";
+import { marked } from "marked";
 
-import Head from "#/components/Head.astro"
-import { blogs } from "#/data"
-import BaseLayout from "#/layouts/BaseLayout.astro"
+import Head from "#/components/Head.astro";
+import { DATE_FORMAT } from "#/constants";
+import { blogs } from "#/data";
+import BaseLayout from "#/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  return blogs.map(({ attributes: { title, slug }, body }) => ({
-    params: {
-      slug,
-    },
-    props: {
-      title,
-      body,
-    },
-  }))
+  return blogs.map(
+    ({ body, metadata: { title, slug, estimatedReadingTime, createdAt } }) => ({
+      params: {
+        slug,
+      },
+      props: {
+        body,
+        title,
+        estimatedReadingTime,
+        createdAt: format(createdAt, DATE_FORMAT),
+      },
+    }),
+  );
 }
 
-const { title, body } = Astro.props
+const { title, body, estimatedReadingTime, createdAt } = Astro.props;
 
-// TODO: Sanitize the HTML because I don't trust myself
-const html = await marked.parse(body)
+// FIXME: Sanitize the HTML because I don't trust myself
+const html = await marked.parse(body);
 ---
 
-<!-- Add metadata, tags, and table of contents -->
+<!-- TODO: Add table of contents -->
 <BaseLayout>
   <Head title={title} slot="head" />
-  <main class="prose flex flex-1 flex-col" set:html={html} />
+  <article class="prose prose-p:text-justify normal-case">
+    <hgroup>
+      <p class="mt-0 text-sm opacity-50">
+        {estimatedReadingTime} min read &middot; {createdAt}
+      </p>
+      <h1>{title}</h1>
+    </hgroup>
+    <Fragment set:html={html} />
+  </article>
 </BaseLayout>

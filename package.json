@@ -6,12 +6,16 @@
     "build": "astro build",
     "dev": "astro dev",
     "format": "prettier --write .",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource/commit-mono": "^5.2.5",
+    "date-fns": "^4.1.0",
     "front-matter": "^4.0.2",
     "marked": "^16.1.2",
+    "remove-markdown": "^0.6.2",
+    "syllable": "^5.0.1",
     "ts-pattern": "^5.8.0",
     "ufo": "^1.6.1",
     "valibot": "^1.1.0",
@@ -30,6 +34,7 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "sharp": "^0.34.3",
     "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "packageManager": "pnpm@10.14.0"

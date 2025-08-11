@@ -1,19 +1,32 @@
 ---
-import "@fontsource/commit-mono"
-import "#/styles/global.css"
+import "@fontsource/commit-mono";
+import "#/styles/global.css";
 
-import Footer from "#/components/Footer.astro"
-import Header from "#/components/Header.astro"
+import Footer from "#/components/Footer.astro";
+import Header from "#/components/Header.astro";
+import Main from "#/components/Main.astro";
+import Navbar from "#/components/Navbar.astro";
+import { requireSlots } from "#/utils";
+
+requireSlots(Astro, "BaseLayout", ["head", "default"]);
 ---
 
 <!doctype html>
 <html lang="en" data-theme="dracula">
   <slot name="head" />
   <body
-    class="font-commit-mono mx-auto flex min-h-screen max-w-[60ch] flex-col p-4"
+    class="font-commit-mono mx-auto grid min-h-svh max-w-[60ch] grid-rows-[auto_1fr_auto] lowercase"
   >
-    <Header />
-    <slot />
-    <Footer />
+    <Header className="mb-12">
+      <Navbar />
+    </Header>
+    <Main className="gap-y-12">
+      <slot />
+    </Main>
+    <Footer className="mt-12" role="contentinfo">
+      <p class="text-sm opacity-50">
+        &copy; 2025-present Jan Carlo Juab. All Rights Reserved.
+      </p>
+    </Footer>
   </body>
 </html>

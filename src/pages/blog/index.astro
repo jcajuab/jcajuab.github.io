@@ -1,0 +1,15 @@
+---
+import BlogList from "#/components/BlogList.astro";
+import Head from "#/components/Head.astro";
+import { blogs } from "#/data";
+import BaseLayout from "#/layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <Head slot="head" title="Blog" />
+  <section>
+    <h1 id="latest-posts-title" class="text-2xl font-bold">All Posts</h1>
+    <div class="divider divider-neutral mt-0" aria-hidden></div>
+    <BlogList blogs={blogs} />
+  </section>
+</BaseLayout>

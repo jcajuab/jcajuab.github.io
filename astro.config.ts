@@ -1,13 +1,13 @@
-import sitemap from "@astrojs/sitemap"
-import tailwindcss from "@tailwindcss/vite"
-import { defineConfig, envField } from "astro/config"
-import tsconfigPaths from "vite-tsconfig-paths"
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, envField } from "astro/config";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-import { MY_WEBSITE_URL } from "./src/constants"
+import { WEBSITE_URL } from "./src/constants";
 
 export default defineConfig({
   integrations: [sitemap()],
-  site: MY_WEBSITE_URL,
+  site: WEBSITE_URL,
   env: {
     schema: {
       GITHUB_TOKEN: envField.string({ context: "server", access: "secret" }),
@@ -17,4 +17,4 @@ export default defineConfig({
   vite: {
     plugins: [tsconfigPaths(), tailwindcss()],
   },
-})
+});

@@ -1,6 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+import { requireSlots } from "#/utils";
+
+type Footer = HTMLAttributes<"footer">;
+interface Props extends Omit<Footer, "class"> {
+  className?: Footer["class"];
+}
+
+const { className, ...props } = Astro.props;
+
+requireSlots(Astro, "Footer");
+---
+
 <footer
-  class="text-base-content/50 mt-16 text-center text-sm"
+  class:list={[
+    "flex items-end justify-center px-4 pb-4 normal-case",
+    className,
+  ]}
+  {...props}
   role="contentinfo"
 >
-  &copy; 2025-present Jan Carlo Juab. All Rights Reserved.
+  <slot />
 </footer>

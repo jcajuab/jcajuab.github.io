@@ -1,56 +1,76 @@
-import fm from "front-matter"
-import { match } from "ts-pattern"
-import * as v from "valibot"
+import { isEqual, toDate } from "date-fns";
+import fm from "front-matter";
+import removeMd from "remove-markdown";
+import { match, P } from "ts-pattern";
+import * as v from "valibot";
 
-import { api, gistApi } from "#/api"
-import { AttributesSchema } from "#/types/attributes"
-import { GistsSchema } from "#/types/gist"
+import { api, gistApi } from "#/api";
+import { AttributesSchema } from "#/types/attributes";
+import { GistsSchema } from "#/types/gist";
+import { estimateReadingTime } from "#/utils";
 
 /**
  * INFO: What identifies a gist blog?
- * 1) A gist blog should contain a description of "#blog."
- * 2) It should contain only one markdown file.
- * 3) Lastly, the markdown file should include frontmatter with the blog’s title, slug, description, and tags.
+ * 1) A gist with a description that starts with "#blog",
+ * 2) which contains a single markdown file,
+ * 3) that includes frontmatter with the properties title, slug, description, and tags,
+ * 4) and does not have a title in the content (e.g., "# Title"); the title comes from the frontmatter instead.
  */
 
-const gists = v.parse(GistsSchema, await gistApi.get().json())
+const gists = v.parse(GistsSchema, await gistApi.get().json());
 
 const files = gists
-  .filter((gist) => gist.description?.toLowerCase().startsWith("#blog")) // 1
-  .flatMap((gist) => {
-    const file = Object.values(gist.files)[0] // 2
-    return match(file.type)
-      .with("text/markdown", () => [
+  .filter(({ description }) => description?.toLowerCase().startsWith("#blog"))
+  .flatMap(({ files, created_at, updated_at }) => {
+    const file = Object.values(files)[0];
+
+    const createdAt = toDate(created_at);
+    const updatedAt = toDate(updated_at);
+
+    const finalUpdatedAt = match(updatedAt)
+      .with(isEqual(createdAt, updatedAt), () => null)
+      .otherwise(() => updatedAt);
+
+    return match(file)
+      .with({ type: "text/markdown", raw_url: P.select("url") }, ({ url }) => [
         {
-          url: file.raw_url,
-          createdAt: new Date(gist.created_at),
-          updatedAt: new Date(gist.updated_at),
+          url,
+          createdAt,
+          updatedAt: finalUpdatedAt,
         },
       ])
-      .otherwise(() => [])
-  })
+      .otherwise(() => []);
+  });
 
 const responses = await Promise.allSettled(
   files.map(async ({ url, createdAt, updatedAt }) => ({
-    text: await api.get(url).text(),
+    markdown: await api.get(url).text(),
     createdAt,
     updatedAt,
   })),
-)
+);
 
 export const blogs = responses
   .filter((promise) => promise.status === "fulfilled")
   .map((result) => result.value)
-  .map(({ text, createdAt, updatedAt }) => {
-    const parsed = fm(text)
-    const attributes = v.parse(AttributesSchema, parsed.attributes)
+  .map(({ markdown, createdAt, updatedAt }) => {
+    const { body, attributes } = fm(markdown);
+
+    const estimatedReadingTime = estimateReadingTime(removeMd(body));
+    const parsedAttributes = v.parse(AttributesSchema, attributes);
 
     return {
-      ...parsed,
-      attributes,
-      metadata: { createdAt, updatedAt },
-    }
+      body,
+      metadata: {
+        ...parsedAttributes,
+        estimatedReadingTime,
+        createdAt,
+        updatedAt,
+      },
+    };
   })
   .sort(
     (a, b) => b.metadata.createdAt.getTime() - a.metadata.createdAt.getTime(),
-  )
+  );
+
+export type Blogs = typeof blogs;

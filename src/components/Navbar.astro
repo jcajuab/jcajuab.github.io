@@ -1,0 +1,67 @@
+---
+import { isEqual, isNonEmptyURL, withTrailingSlash } from "ufo";
+
+import { GITHUB_URL } from "#/constants";
+
+const { pathname } = Astro.url;
+
+type Link = {
+  href: string;
+  label: string;
+};
+const internalLinks = [
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
+] as const satisfies Link[];
+
+const externalLinks = [
+  { href: GITHUB_URL, label: "GitHub" },
+] as const satisfies Link[];
+---
+
+<nav class="flex items-center justify-between" aria-label="Main navigation">
+  <ul class="space-x-4">
+    {
+      internalLinks.map(({ href, label }) => {
+        const current = withTrailingSlash(pathname);
+        const target = withTrailingSlash(href);
+
+        const isActive = isEqual(current, target);
+        const isPartial =
+          !isActive && isNonEmptyURL(target) && current.startsWith(target);
+
+        return (
+          <li class="inline-block">
+            <a
+              href={href}
+              class:list={[
+                "link hover:link-secondary font-semibold",
+                { "link-secondary": isActive },
+                { "link-accent": isPartial },
+              ]}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <ul class="space-x-4">
+    {
+      externalLinks.map(({ href, label }) => (
+        <li class="inline-block">
+          <a
+            href={href}
+            class="link font-semibold"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

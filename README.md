@@ -8,7 +8,8 @@
 ## Pages
 
 - [ ] Blog
-  - [ ] Add metadata
+  - [x] Add metadata
   - [ ] Add tags
   - [ ] Add table of content
+  - [ ] Add search
 - [ ] Contact

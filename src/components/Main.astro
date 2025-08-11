@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+import { requireSlots } from "#/utils";
+
+type Main = HTMLAttributes<"main">;
+interface Props extends Omit<Main, "class"> {
+  className?: Main["class"];
+}
+
+const { className, ...props } = Astro.props;
+
+requireSlots(Astro, "Main");
+---
+
+<main class:list={["flex flex-col px-4", className]} {...props}>
+  <slot />
+</main>
