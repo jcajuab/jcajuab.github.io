@@ -1,5 +1,7 @@
 # jcajuab.github.io
 
+Please don’t read this source code lol, I’m just testing out utility libraries like `ts-pattern`, so it’s spammed everywhere.
+
 ## To-do list
 
 - [ ] Add [favicon](https://realfavicongenerator.net/)
